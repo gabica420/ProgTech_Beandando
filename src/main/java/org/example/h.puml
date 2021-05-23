@@ -1,0 +1,238 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Termek{
+Boolean getTorekeny();
+HomersekletType getHomerseklet();
+GyarTerType getTipus();
+int getAr();
+int getMennyiseg();
+void setMennyiseg(int szam);
+}
+
+Termek <|-- Fejhallgato
+
+class Fejhallgato{
+Boolean getTorekeny();
+HomersekletType getHomerseklet();
+GyarTerType getTipus();
+int getAr();
+int getMennyiseg();
+void setMennyiseg(int szam);
+FejhallgatoType getKategoria();
+String getCikkszam();
+String toString();
+}
+
+Termek <|-- TV
+
+class TV{
+Boolean getTorekeny();
+HomersekletType getHomerseklet();
+GyarTerType getTipus();
+int getAr();
+int getMennyiseg();
+void setMennyiseg(int szam);
+TVType getKategoria();
+String getCikkszam();
+String toString();
+}
+
+Termek <|-- Ruha
+
+class Ruha{
+Boolean getTorekeny();
+HomersekletType getHomerseklet();
+GyarTerType getTipus();
+int getAr();
+int getMennyiseg();
+void setMennyiseg(int szam);
+RuhaType getKategoria();
+String getCikkszam();
+String toString();
+}
+
+Termek <|-- Tej
+
+class Tej{
+Boolean getTorekeny();
+HomersekletType getHomerseklet();
+GyarTerType getTipus();
+int getAr();
+int getMennyiseg();
+void setMennyiseg(int szam);
+TejType getKategoria();
+double getKiszereles();
+double getZsirtartalom();
+String getCikkszam();
+String toString();
+}
+
+interface GyarTer{
+Termek getTermek(Termek termek);
+void addTermek(Termek termek);
+void removeTermek(Termek termek);
+int getSzamolo();
+}
+
+GyarTer <|-- ElektronikusGyar
+
+class ElektronikusGyar{
+Termek getTermek(Termek termek);
+void addTermek(Termek termek);
+void removeTermek(Termek termek);
+int getSzamolo();
+}
+
+GyarTer <|-- ElelmiszerGyar
+
+class ElelmiszerGyar{
+Termek getTermek(Termek termek);
+void addTermek(Termek termek);
+void removeTermek(Termek termek);
+int getSzamolo();
+}
+
+GyarTer <|-- RuhaGyar
+
+class RuhaGyar{
+Termek getTermek(Termek termek);
+void addTermek(Termek termek);
+void removeTermek(Termek termek);
+int getSzamolo();
+}
+
+GyarFactory --> GyarTer
+
+class GyarFactory{
+static GyarTer keszitGyarTer();
+}
+
+GyarF <|-- GyarFactory
+
+interface GyarF{
+static GyarTer keszitGyarTer();
+}
+
+interface Figyelo{
+void update(Termek termek, int ujMennyiseg);
+}
+
+class Arumenedzser{
+void update(Termek termek, int ujMennyiseg);
+}
+
+RaktarTer --> Figyelo
+Figyelo <|-- Arumenedzser
+Arumenedzser --> RaktarTer
+
+interface RaktarTer{
+String getID();
+String getHelyszin();
+void addTermek(Termek termek) throws Exception;
+void removeTermek(Termek termek);
+Termek getTermek(Termek termek);
+int getSzamolo();
+void addFigyelo(Figyelo figyelmes);
+void removeFigyelo(Figyelo figyelmes);
+void ertesitFigyelo(Termek termek, int szam);
+}
+
+class SimaRaktar{
+String getID();
+String getHelyszin();
+void addTermek(Termek termek) throws Exception;
+void removeTermek(Termek termek);
+Termek getTermek(Termek termek);
+int getSzamolo();
+void addFigyelo(Figyelo figyelmes);
+void removeFigyelo(Figyelo figyelmes);
+void ertesitFigyelo(Termek termek, int szam);
+}
+
+class HutottRaktar{
+String getID();
+String getHelyszin();
+void addTermek(Termek termek) throws Exception;
+void removeTermek(Termek termek);
+Termek getTermek(Termek termek);
+int getSzamolo();
+void addFigyelo(Figyelo figyelmes);
+void removeFigyelo(Figyelo figyelmes);
+void ertesitFigyelo(Termek termek, int szam);
+}
+
+RaktarTer <|-- SimaRaktar
+RaktarTer <|-- HutottRaktar
+RaktarFactory --> RaktarTer
+
+class RaktarFactory{
+static RaktarTer keszitRaktarTer();
+}
+
+RaktarF <|-- RaktarFactory
+
+interface RaktarF{
+static RaktarTer keszitRaktarTer();
+}
+
+interface Rendeles{
+void megrendel(Termek termek);
+void visszavon(Termek termek);
+}
+
+Rendeles <|-- Rendel
+
+class Rendel{
+void megrendel(Termek termek);
+void visszavon(Termek termek);
+}
+
+interface Vevo{
+String getVevoiID();
+void modositNev(String ujNev);
+String getNev();
+void modositCim(String ujCim);
+String getCim();
+void modositErtesites(String ujErtesites);
+String getErtesites();
+void addRendeles(String rendelesiszam);
+void removeRendeles(String rendelesiszam);
+String keresRendeles(String rendelesiszam);
+int getSzamolo();
+void setRendeles(Rendeles parancs);
+}
+
+Vevo --> Rendeles
+Rendel --> RaktarTer
+Vevo <|-- HetkoznapiVevo
+VevoFactory --> Vevo
+
+class HetkoznapiVevo{
+String getVevoiID();
+void modositNev(String ujNev);
+String getNev();
+void modositCim(String ujCim);
+String getCim();
+void modositErtesites(String ujErtesites);
+String getErtesites();
+void addRendeles(String rendelesiszam);
+void removeRendeles(String rendelesiszam);
+String keresRendeles(String rendelesiszam);
+int getSzamolo();
+void setRendeles(Rendeles parancs);
+}
+
+class VevoFactory{
+static Vevo keszitVevo();
+}
+
+VevoF <|-- VevoFactory
+
+interface VevoF{
+static Vevo keszitVevo();
+}
+
+RaktarTer --> Termek
+GyarTer --> Termek
+@enduml
